@@ -104,12 +104,12 @@ async function buy(product, price) {
     return;
   }
 
-  if (typeof Paystack === "undefined") {
+  if (typeof PaystackPop === "undefined")
     alert("Paystack failed to load. Refresh the page.");
     return;
   }
 
-  const paystack = new Paystack();
+  const paystack = new PaystackPop();
 
   try {
     paystack.checkout({
