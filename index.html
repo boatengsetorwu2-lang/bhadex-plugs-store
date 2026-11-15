@@ -5,147 +5,265 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bhadex Plugs | Premium Digital Store</title>
-
 <script src="https://js.paystack.co/v2/inline.js"></script>
 
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
-margin:0;
+margin:0;background:#050505;color:white;
 font-family:Arial,sans-serif;
-background:#080b14;
-color:#fff;
 }
+:root{--red:#ff1744;--glass:#160b0e}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;font-family:inherit}
+.container{width:92%;max-width:1250px;margin:auto}
+
+/* Background effects */
+body:before,body:after{
+content:"";position:absolute;width:100%;height:300px;
+left:0;pointer-events:none;z-index:-1;
+background:radial-gradient(ellipse,#ff123855,transparent 70%);
+filter:blur(45px)
+}
+body:after{top:auto;bottom:0}
+
+/* Navigation */
 header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:20px 7%;
-border-bottom:1px solid #20283a;
+position:sticky;top:0;z-index:100;
+background:#050505ed;backdrop-filter:blur(18px);
+border-bottom:1px solid #ff174433
 }
-.logo{
-font-size:24px;
-font-weight:bold;
-color:#61ffc5;
+.nav{
+display:flex;justify-content:space-between;
+align-items:center;padding:15px 0;gap:15px
 }
-nav a{
-color:#ddd;
-text-decoration:none;
-margin-left:20px;
+.brand{display:flex;align-items:center;gap:10px}
+.logo-icon{
+width:48px;height:48px;border-radius:13px;
+display:grid;place-items:center;font-size:27px;
+font-weight:bold;background:linear-gradient(135deg,#ff657e,#a90022);
+box-shadow:0 0 25px #ff174455
 }
+.logo-text{font-size:22px;font-weight:900}
+.logo-text span{color:var(--red)}
+.logo-text small{
+display:block;color:var(--red);font-size:11px;
+letter-spacing:4px
+}
+nav{display:flex;gap:20px;align-items:center;font-size:14px}
+nav a:hover{color:var(--red)}
+nav .active{
+background:var(--red);padding:10px 17px;border-radius:25px;color:white
+}
+.actions{display:flex;gap:17px;align-items:center}
+.cart{position:relative;font-size:22px}
+.cart-count{
+position:absolute;right:-10px;top:-9px;
+background:var(--red);padding:3px 6px;
+border-radius:20px;font-size:10px
+}
+.menu-toggle{display:none;font-size:25px;background:none;color:white;border:0}
+
+/* Hero */
 .hero{
-padding:90px 20px;
-text-align:center;
-background:radial-gradient(circle at top,#17342e,#080b14 70%);
+min-height:530px;display:grid;
+grid-template-columns:1fr 1fr;gap:25px;
+align-items:center;padding:65px 0;
 }
-.hero .tag{
-color:#61ffc5;
-border:1px solid #245a4c;
-padding:8px 15px;
-border-radius:30px;
-display:inline-block;
-font-size:13px;
+.tag{
+display:inline-block;border:1px solid var(--red);
+border-radius:30px;padding:9px 16px;font-size:13px;
+background:#ff174410
 }
 .hero h1{
-font-size:50px;
-max-width:750px;
-margin:25px auto;
-line-height:1.15;
+font-size:clamp(50px,7vw,85px);
+line-height:.95;margin:25px 0
 }
-.hero h1 span{color:#61ffc5}
-.hero p{
-color:#aebbd0;
-font-size:17px;
-line-height:1.7;
+.hero h1 span{color:var(--red);text-shadow:0 0 30px #ff174455}
+.hero p{color:#ccc;line-height:1.8;font-size:17px}
+.features{display:flex;flex-wrap:wrap;gap:15px;margin:25px 0;font-size:13px}
+.features span{color:var(--red);font-weight:bold}
+.red-btn{
+border:0;display:inline-block;padding:14px 23px;
+border-radius:9px;background:linear-gradient(135deg,#ff4967,#d6002c);
+color:white;font-weight:bold;box-shadow:0 0 22px #ff174433
 }
-.btn{
-display:inline-block;
-padding:14px 25px;
-border:0;
-border-radius:9px;
-background:#61ffc5;
-color:#06120d;
-font-weight:bold;
-text-decoration:none;
-cursor:pointer;
+.red-btn:hover{filter:brightness(1.15)}
+.hero-art{
+height:370px;display:grid;place-items:center;position:relative
 }
-.btn:hover{opacity:.85}
-.hero .btn{margin-top:20px}
-.section{padding:65px 7%}
-.section-title{text-align:center}
-.section-title h2{font-size:32px}
-.section-title p{color:#aab5cb}
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:22px;
-margin-top:35px;
+.splash{
+width:290px;height:290px;border-radius:40% 60% 55% 45%;
+background:radial-gradient(circle at 35% 25%,#ff8c9e,#ff1744 45%,#770019 85%);
+box-shadow:inset -20px -30px 35px #520016,
+inset 15px 10px 35px #ffb2bf,
+0 0 65px #ff174466;
+transform:rotate(-15deg)
 }
-.card{
-background:linear-gradient(145deg,#141c2d,#0d1320);
-border:1px solid #26334a;
-border-radius:16px;
-padding:25px;
-transition:.2s;
+.crown{
+position:absolute;top:20px;left:50%;
+transform:translateX(-50%);font-size:75px;
+filter:drop-shadow(0 0 20px #ff1744)
 }
-.card:hover{
-transform:translateY(-5px);
-border-color:#61ffc5;
+.float{
+position:absolute;width:70px;height:70px;
+display:grid;place-items:center;font-size:34px;
+background:#101010;border:1px solid #ffffff25;
+border-radius:18px;box-shadow:0 0 25px #ff174422
 }
-.icon{
-font-size:42px;
-margin-bottom:15px;
+.f1{top:65px;left:5%;color:#e50914}
+.f2{top:110px;right:4%;color:#ff0033}
+.f3{bottom:55px;left:8%;color:#1ed760}
+.f4{bottom:35px;right:10%}
+.dots{text-align:center;grid-column:1/-1;margin-top:-20px}
+.dots span{
+display:inline-block;width:7px;height:7px;
+border-radius:50%;background:#555;margin:4px
 }
-.card h3{font-size:21px}
-.card p{
-color:#aab5cb;
-font-size:14px;
-line-height:1.6;
+.dots span:first-child{background:var(--red)}
+
+/* Product categories */
+.category{
+margin:30px 0;padding:24px;
+border:1px solid #ff174455;border-radius:20px;
+background:linear-gradient(145deg,#1b090e,#090909 75%);
+box-shadow:0 0 30px #ff174411,inset 0 0 25px #ff174408
 }
-.price{
-font-size:28px;
-font-weight:bold;
-color:#61ffc5;
-margin:20px 0;
+.category-head{
+display:flex;justify-content:space-between;
+align-items:center;gap:10px;margin-bottom:22px
 }
-.price small{
-font-size:12px;
-color:#aab5cb;
-font-weight:normal;
+.category-head h2{font-size:21px;margin:0}
+.category-head h2 span{color:var(--red);margin-right:8px}
+.view{
+background:#050505;color:white;
+border:1px solid #ff174455;padding:10px 14px;
+border-radius:8px
 }
-.card .btn{width:100%}
+.products{
+display:grid;grid-template-columns:repeat(8,minmax(0,1fr));
+gap:12px
+}
+.product{
+background:#080808;border:1px solid #ffffff16;
+border-radius:13px;padding:15px 7px;
+text-align:center;cursor:pointer;transition:.2s;
+min-width:0
+}
+.product:hover{
+border-color:var(--red);transform:translateY(-4px);
+box-shadow:0 0 20px #ff174433
+}
+.product-logo{
+height:48px;display:grid;place-items:center;
+font-size:34px;font-weight:bold
+}
+.product-name{font-size:12px;color:#ddd;line-height:1.5;margin-top:7px}
+.product-price{font-size:13px;color:#ff526e;font-weight:bold;margin-top:9px}
+.netflix{color:#e50914}
+.spotify{color:#1ed760}
+.youtube{color:#ff0033}
+.apple{color:white}
+.prime{color:#00a8e1}
+.boom{color:#ffcc00}
+.audio{color:#ff6600}
+.movie{color:#00d4ff}
+.tiktok{color:#ff4770}
+.telegram{color:#29a9eb}
+.snap{color:#fffc00}
+.xlogo{color:white}
+.instagram{color:#e1306c}
+.facebook{color:#1877f2}
+.capcut{color:white}
+.canva{color:#00c4cc}
+.chatgpt{color:#10a37f}
+.gemini{color:#8ab4f8}
+
+/* Banner */
+.banners{
+display:grid;grid-template-columns:1fr 1fr;
+gap:20px;margin:50px 0
+}
+.banner{
+padding:28px;border-radius:18px;
+border:1px solid #ff174444;
+background:#111;box-shadow:0 0 25px #ff174411
+}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.benefit{text-align:center;color:#ddd;font-size:12px;line-height:1.6}
+.benefit div{font-size:30px;margin-bottom:10px}
+.cta{
+background:linear-gradient(130deg,#f00037,#72001b);
+position:relative;overflow:hidden
+}
+.cta h2{font-size:26px;max-width:340px}
+.cta p{color:#ffd8df}
+.cta .crown{position:absolute;top:5px;left:auto;right:20px;transform:none}
+
+/* Checkout */
 .checkout{
-max-width:500px;
-margin:30px auto 0;
-background:#111827;
-padding:25px;
-border-radius:15px;
-border:1px solid #26334a;
+max-width:550px;margin:30px auto;
+padding:25px;background:#15090d;
+border:1px solid #ff174455;border-radius:16px
 }
-input{
-width:100%;
-padding:14px;
-margin:10px 0;
-border-radius:8px;
-border:1px solid #34415b;
-background:#080b14;
-color:white;
+.checkout input{
+width:100%;padding:14px;margin:9px 0;
+background:#050505;border:1px solid #50303a;
+color:white;border-radius:8px
 }
-.checkout .btn{width:100%;margin-top:10px}
+.checkout .red-btn{width:100%;margin-top:10px}
+
+/* Footer */
 footer{
-text-align:center;
-padding:35px 20px;
-border-top:1px solid #20283a;
-color:#8996ad;
+border-top:1px solid #ff174433;
+padding:45px 0 20px;background:#050505;
+position:relative;overflow:hidden
 }
-footer a{color:#61ffc5;text-decoration:none}
-@media(max-width:600px){
-.hero h1{font-size:34px}
-header{padding:18px 5%}
-.logo{font-size:19px}
-nav a{margin-left:10px;font-size:13px}
-.section{padding:45px 5%}
+.footer-grid{
+display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;
+gap:25px
+}
+footer h3{font-size:16px}
+footer p,footer a{font-size:13px;color:#aaa;line-height:2}
+footer a:hover{color:var(--red)}
+.footer-bottom{
+border-top:1px solid #252525;margin-top:30px;
+padding-top:18px;display:flex;
+justify-content:space-between;color:#888;font-size:12px
+}
+
+/* WhatsApp */
+.whatsapp{
+position:fixed;right:20px;bottom:20px;z-index:200;
+height:58px;width:58px;border-radius:50%;
+background:#25d366;color:white;font-size:29px;
+display:grid;place-items:center;
+box-shadow:0 0 25px #25d36666
+}
+
+@media(max-width:1050px){
+.products{grid-template-columns:repeat(4,1fr)}
+nav{gap:12px}
+}
+@media(max-width:700px){
+nav{display:none;position:absolute;top:75px;left:0;width:100%;
+background:#10090c;padding:20px;flex-direction:column;align-items:flex-start}
+nav.open{display:flex}
+.menu-toggle{display:block}
+.hero{grid-template-columns:1fr;text-align:center;padding:50px 0}
+.hero p{margin:auto}
+.features{justify-content:center}
+.hero-art{height:310px}
+.splash{width:230px;height:230px}
+.crown{font-size:60px}
+.dots{margin-top:0}
+.category{padding:16px}
+.category-head h2{font-size:16px}
+.products{grid-template-columns:repeat(2,1fr)}
+.banners{grid-template-columns:1fr}
+.footer-grid{grid-template-columns:1fr 1fr}
+.footer-bottom{flex-direction:column;gap:10px}
 }
 </style>
 </head>
@@ -153,143 +271,328 @@ nav a{margin-left:10px;font-size:13px}
 <body>
 
 <header>
-<div class="logo">BHADEX PLUGS</div>
-<nav>
-<a href="#products">Products</a>
-<a href="#checkout">Checkout</a>
+<div class="container nav">
+
+<a class="brand" href="#">
+<div class="logo-icon">B⚡</div>
+<div class="logo-text">Bhadex <span>Plugs</span><small>PREMIUM STORE</small></div>
+</a>
+
+<nav id="mainNav">
+<a class="active" href="#">Home</a>
+<a href="#products">Products ▾</a>
+<a href="#about">About</a>
+<a href="#faqs">FAQs</a>
 <a href="#contact">Contact</a>
 </nav>
+
+<div class="actions">
+<span onclick="searchProducts()" style="font-size:23px;cursor:pointer">⌕</span>
+<span style="color:#444">|</span>
+<a class="cart" href="#checkout">🛒
+<span class="cart-count" id="cartCount">0</span>
+</a>
+<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+</div>
+
+</div>
 </header>
 
-<section class="hero">
-<span class="tag">YOUR DIGITAL PREMIUM STORE</span>
+<main class="container">
 
-<h1>Upgrade Your Digital <span>Experience</span></h1>
+<!-- HERO -->
+<section class="hero" id="about">
+<div>
+<span class="tag">Premium Digital Store</span>
+<h1>Bhadex<br><span>Plugs</span></h1>
+<p>Your One-Stop Plug for Premium Subscriptions & Digital Services!</p>
 
-<p>
-Discover premium digital subscriptions and creative tools
-<br>
-all in one place.
-</p>
+<div class="features">
+<div><span>✓</span> Instant Delivery</div>
+<div><span>✓</span> Secure & Reliable</div>
+<div><span>✓</span> Best Prices</div>
+</div>
 
-<a href="#products" class="btn">Explore Products →</a>
+<a href="#products" class="red-btn">Shop Now →</a>
+</div>
+
+<div class="hero-art">
+<div class="splash"></div>
+<div class="crown">👑</div>
+<div class="float f1 netflix">N</div>
+<div class="float f2 youtube">▶</div>
+<div class="float f3 spotify">♫</div>
+<div class="float f4 tiktok">♪</div>
+</div>
+<div class="dots"><span></span><span></span><span></span></div>
 </section>
 
-<section class="section" id="products">
+<div id="products">
 
-<div class="section-title">
-<h2>Popular Subscriptions</h2>
-<p>Choose your preferred digital subscription.</p>
+<!-- CATEGORY 1 -->
+<section class="category">
+<div class="category-head">
+<h2><span>▶</span> Streaming / Music / Video</h2>
+<button class="view" onclick="showAll('streaming')">View All →</button>
 </div>
 
-<div class="grid">
+<div class="products" id="streaming">
 
-<div class="card">
-<div class="icon">🎨</div>
-<h3>Canva Pro</h3>
-<p>Unlock premium design tools and creative features.</p>
-<div class="price">GH₵ 35</div>
-<button class="btn" onclick="selectProduct('Canva Pro',35)">Buy Now</button>
+<div class="product" onclick="choose('Netflix',50)">
+<div class="product-logo netflix">N</div>
+<div class="product-name">Netflix</div>
+<div class="product-price">GH₵ 50</div>
 </div>
 
-<div class="card">
-<div class="icon">🎵</div>
-<h3>Spotify Premium</h3>
-<p>Enjoy premium music streaming features.</p>
-<div class="price">GH₵ 30</div>
-<button class="btn" onclick="selectProduct('Spotify Premium',30)">Buy Now</button>
+<div class="product" onclick="choose('Spotify Premium',30)">
+<div class="product-logo spotify">♫</div>
+<div class="product-name">Spotify</div>
+<div class="product-price">GH₵ 30</div>
 </div>
 
-<div class="card">
-<div class="icon">▶️</div>
-<h3>YouTube Premium</h3>
-<p>Enjoy an enhanced YouTube experience.</p>
-<div class="price">GH₵ 40</div>
-<button class="btn" onclick="selectProduct('YouTube Premium',40)">Buy Now</button>
+<div class="product" onclick="choose('YouTube Premium',40)">
+<div class="product-logo youtube">▶</div>
+<div class="product-name">YouTube Premium</div>
+<div class="product-price">GH₵ 40</div>
 </div>
 
-<div class="card">
-<div class="icon">🍎</div>
-<h3>Apple Music</h3>
-<p>Discover music and enjoy premium listening.</p>
-<div class="price">GH₵ 30</div>
-<button class="btn" onclick="selectProduct('Apple Music',30)">Buy Now</button>
+<div class="product" onclick="choose('Apple Music',30)">
+<div class="product-logo apple">●</div>
+<div class="product-name">Apple Music</div>
+<div class="product-price">GH₵ 30</div>
 </div>
 
-<div class="card">
-<div class="icon">🎬</div>
-<h3>Streaming Plans</h3>
-<p>Explore available entertainment subscriptions.</p>
-<div class="price">GH₵ 50</div>
-<button class="btn" onclick="selectProduct('Streaming Plan',50)">Buy Now</button>
+<div class="product" onclick="choose('Amazon Prime Video',45)">
+<div class="product-logo prime">▶</div>
+<div class="product-name">Amazon Prime Video</div>
+<div class="product-price">GH₵ 45</div>
 </div>
 
-<div class="card">
-<div class="icon">💎</div>
-<h3>Other Premium</h3>
-<p>Discover more premium digital services.</p>
-<div class="price">GH₵ 25</div>
-<button class="btn" onclick="selectProduct('Other Premium',25)">Buy Now</button>
+<div class="product" onclick="choose('Boomplay',25)">
+<div class="product-logo boom">♫</div>
+<div class="product-name">Boomplay</div>
+<div class="product-price">GH₵ 25</div>
+</div>
+
+<div class="product" onclick="choose('Audiomack',20)">
+<div class="product-logo audio">A</div>
+<div class="product-name">Audiomack</div>
+<div class="product-price">GH₵ 20</div>
+</div>
+
+<div class="product" onclick="choose('MovieBox',35)">
+<div class="product-logo movie">M</div>
+<div class="product-name">MovieBox</div>
+<div class="product-price">GH₵ 35</div>
 </div>
 
 </div>
 </section>
 
-<section class="section" id="checkout">
+<!-- CATEGORY 2 -->
+<section class="category">
+<div class="category-head">
+<h2><span>♟</span> Social Media Premium</h2>
+<button class="view" onclick="showAll('social')">View All →</button>
+</div>
 
-<div class="section-title">
-<h2>Secure Checkout</h2>
-<p>Complete your order using Paystack.</p>
+<div class="products" id="social">
+
+<div class="product" onclick="choose('TikTok Coins / Boost',25)">
+<div class="product-logo tiktok">♪</div>
+<div class="product-name">TikTok Coins / Boost</div>
+<div class="product-price">GH₵ 25</div>
+</div>
+
+<div class="product" onclick="choose('Telegram Premium',35)">
+<div class="product-logo telegram">✈</div>
+<div class="product-name">Telegram Premium</div>
+<div class="product-price">GH₵ 35</div>
+</div>
+
+<div class="product" onclick="choose('Snapchat+',30)">
+<div class="product-logo snap">👻</div>
+<div class="product-name">Snapchat+</div>
+<div class="product-price">GH₵ 30</div>
+</div>
+
+<div class="product" onclick="choose('X Premium',50)">
+<div class="product-logo xlogo">𝕏</div>
+<div class="product-name">X Premium</div>
+<div class="product-price">GH₵ 50</div>
+</div>
+
+<div class="product" onclick="choose('Instagram Meta Verified',60)">
+<div class="product-logo instagram">◎</div>
+<div class="product-name">Instagram Verified</div>
+<div class="product-price">GH₵ 60</div>
+</div>
+
+<div class="product" onclick="choose('Facebook Meta Verified',60)">
+<div class="product-logo facebook">f</div>
+<div class="product-name">Facebook Verified</div>
+<div class="product-price">GH₵ 60</div>
+</div>
+
+</div>
+</section>
+
+<!-- CATEGORY 3 -->
+<section class="category">
+<div class="category-head">
+<h2><span>✎</span> Editing / Design / AI Tools</h2>
+<button class="view" onclick="showAll('design')">View All →</button>
+</div>
+
+<div class="products" id="design">
+
+<div class="product" onclick="choose('CapCut Pro',35)">
+<div class="product-logo capcut">剪</div>
+<div class="product-name">CapCut Pro</div>
+<div class="product-price">GH₵ 35</div>
+</div>
+
+<div class="product" onclick="choose('Canva Pro',35)">
+<div class="product-logo canva">C</div>
+<div class="product-name">Canva Pro</div>
+<div class="product-price">GH₵ 35</div>
+</div>
+
+<div class="product" onclick="choose('ChatGPT Plus',100)">
+<div class="product-logo chatgpt">✳</div>
+<div class="product-name">ChatGPT Plus</div>
+<div class="product-price">GH₵ 100</div>
+</div>
+
+<div class="product" onclick="choose('Gemini Advanced',80)">
+<div class="product-logo gemini">✦</div>
+<div class="product-name">Gemini Advanced</div>
+<div class="product-price">GH₵ 80</div>
+</div>
+
+</div>
+</section>
+</div>
+
+<!-- BOTTOM BANNERS -->
+<section class="banners">
+<div class="banner">
+<div class="benefits">
+<div class="benefit"><div>🛡️</div>100% Secure<br>Transactions</div>
+<div class="benefit"><div>⚡</div>Instant<br>Activation</div>
+<div class="benefit"><div>🎧</div>24/7<br>Support</div>
+</div>
+</div>
+
+<div class="banner cta">
+<div class="crown">👑</div>
+<h2>Get Your Premium Subscriptions Today!</h2>
+<p>Fast. Safe. Reliable.</p>
+<a href="https://wa.me/233249532964" class="red-btn">Contact Us →</a>
+</div>
+</section>
+
+<!-- CHECKOUT -->
+<section class="category" id="checkout">
+<div class="category-head">
+<h2><span>💳</span> Secure Checkout</h2>
 </div>
 
 <div class="checkout">
-
 <h3 id="selectedProduct">Select a product first</h3>
-<p id="selectedPrice" style="color:#61ffc5">GH₵ 0.00</p>
+<p id="selectedPrice" style="color:#ff526e">GH₵ 0.00</p>
 
-<input
-id="customerEmail"
-type="email"
-placeholder="Enter your email address"
-required
->
+<input id="customerEmail" type="email" placeholder="Enter your email address">
 
-<button class="btn" onclick="payNow()">Continue to Payment</button>
+<button class="red-btn" onclick="payNow()">BUY NOW →</button>
 
-<p style="font-size:12px;color:#8996ad;text-align:center">
-Secure payment powered by Paystack.
+<p style="font-size:12px;color:#aaa;text-align:center">
+Payments processed securely by Paystack.
 </p>
-
 </div>
 </section>
 
+<section class="category" id="faqs">
+<h2>Frequently Asked Questions</h2>
+<p style="color:#aaa">Need assistance? Contact our support team for product availability and subscription information.</p>
+<a class="red-btn" href="https://wa.me/233249532964">Chat With Us →</a>
+</section>
+
+</main>
+
+<!-- FOOTER -->
 <footer id="contact">
-<h3 style="color:#61ffc5">BHADEX PLUGS</h3>
-<p>Your trusted digital subscription store.</p>
-<p>© 2026 Bhadex Plugs. All rights reserved.</p>
+<div class="container">
+<div class="footer-grid">
+
+<div>
+<div class="brand">
+<div class="logo-icon">B⚡</div>
+<div class="logo-text">Bhadex <span>Plugs</span></div>
+</div>
+<p>Plug Smart. Live Premium.</p>
+</div>
+
+<div>
+<h3>Quick Links</h3>
+<p><a href="#">› Home</a></p>
+<p><a href="#products">› Products</a></p>
+<p><a href="#about">› About</a></p>
+<p><a href="#faqs">› FAQs</a></p>
+<p><a href="#contact">› Contact</a></p>
+</div>
+
+<div>
+<h3>Support</h3>
+<p><a href="https://wa.me/233249532964">› WhatsApp Us</a></p>
+<p><a href="mailto:support@bhadexplugs.com">› Email Us</a></p>
+<p><a href="#contact">› Terms of Service</a></p>
+<p><a href="#contact">› Privacy Policy</a></p>
+</div>
+
+<div>
+<h3>Follow Us</h3>
+<p><a href="https://wa.me/233249532964">🟢 WhatsApp</a></p>
+<p><a href="#">🔵 Telegram</a></p>
+<p><a href="#">♪ TikTok</a></p>
+<p><a href="#">▶ YouTube</a></p>
+<p><a href="#">🔵 Facebook</a></p>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+<span>© 2026 Bhadex Plugs. All Rights Reserved.</span>
+<span>Powered by Bhadex Plugs ❤️</span>
+</div>
+</div>
 </footer>
+
+<a class="whatsapp" href="https://wa.me/233249532964" target="_blank">☏</a>
 
 <script>
 
+/* KEEP YOUR EXISTING PAYSTACK TEST PUBLIC KEY */
 const PAYSTACK_PUBLIC_KEY =
 "pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
 
 let selectedProduct = "";
 let selectedAmount = 0;
+let cartCount = 0;
 
-function selectProduct(product,price){
-
+function choose(product,price){
 selectedProduct = product;
 selectedAmount = price;
+cartCount++;
 
 document.getElementById("selectedProduct").innerText = product;
 document.getElementById("selectedPrice").innerText =
 "GH₵ " + price.toFixed(2);
+document.getElementById("cartCount").innerText = cartCount;
 
 document.getElementById("checkout").scrollIntoView({
 behavior:"smooth"
 });
-
 }
 
 function payNow(){
@@ -314,32 +617,23 @@ return;
 const popup = new PaystackPop();
 
 popup.newTransaction({
-
 key:PAYSTACK_PUBLIC_KEY,
-
 email:email,
-
 amount:selectedAmount * 100,
-
 currency:"GHS",
-
 channels:["card","mobile_money"],
 
 metadata:{
-custom_fields:[
-{
+custom_fields:[{
 display_name:"Product",
 variable_name:"product",
 value:selectedProduct
-}
-]
+}]
 },
 
 onSuccess:(transaction)=>{
-alert(
-"Payment completed! Reference: " +
-transaction.reference
-);
+alert("Payment reference: "+transaction.reference+
+". Your payment will be verified.");
 },
 
 onCancel:()=>{
@@ -347,14 +641,34 @@ alert("Payment cancelled.");
 },
 
 onError:(error)=>{
-alert("Payment error: " + error.message);
+alert("Payment error: "+error.message);
+}
+});
 }
 
+function toggleMenu(){
+document.getElementById("mainNav").classList.toggle("open");
+}
+
+function showAll(id){
+document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
+function searchProducts(){
+const term=prompt("Search for a product:");
+if(!term)return;
+
+let found=false;
+document.querySelectorAll(".product").forEach(item=>{
+const match=item.innerText.toLowerCase().includes(term.toLowerCase());
+item.style.display=match?"":"none";
+if(match)found=true;
 });
 
+if(!found)alert("No matching product found.");
 }
 
 </script>
-
 </body>
-</html>
+  </html>
+  
