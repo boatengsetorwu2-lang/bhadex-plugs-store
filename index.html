@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050505">
 <title>BHADEX | Premium Digital Store</title>
-<script src="https://js.paystack.co/v2/inline.js"></script>
+
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -40,6 +41,7 @@ nav .active{background:var(--red);padding:10px 17px;border-radius:25px;color:#ff
 .features span{color:var(--red);font-weight:bold}
 .red-btn{border:0;display:inline-block;padding:14px 23px;border-radius:9px;background:linear-gradient(135deg,#ff4967,#d6002c);color:#fff;font-weight:bold;box-shadow:0 0 22px #ff174433}
 .red-btn:hover{filter:brightness(1.15)}
+.red-btn:disabled{opacity:.6;cursor:not-allowed}
 .hero-art{height:370px;display:grid;place-items:center;position:relative}
 .splash{width:290px;height:290px;border-radius:40% 60% 55% 45%;background:radial-gradient(circle at 35% 25%,#ff8c9e,#ff1744 45%,#770019 85%);box-shadow:inset -20px -30px 35px #520016,inset 15px 10px 35px #ffb2bf,0 0 65px #ff174466;transform:rotate(-15deg)}
 .crown{position:absolute;top:20px;left:50%;transform:translateX(-50%);font-size:75px;filter:drop-shadow(0 0 20px #ff1744)}
@@ -55,7 +57,7 @@ nav .active{background:var(--red);padding:10px 17px;border-radius:25px;color:#ff
 .category-head h2 span{color:var(--red);margin-right:8px}
 .view{background:#050505;color:#fff;border:1px solid #ff174455;padding:10px 14px;border-radius:8px}
 .products{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px}
-.product{background:#080808;border:1px solid #ffffff16;border-radius:13px;padding:15px 7px;text-align:center;cursor:pointer;transition:.2s;min-width:0}
+.product{background:#080808;border:1px solid #ffffff16;border-radius:13px;padding:15px 7px;text-align:center;cursor:pointer;transition:.2s;min-width:0;color:white;width:100%}
 .product:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 0 20px #ff174433}
 .product-logo{height:58px;width:58px;margin:auto;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:15px;padding:9px;overflow:hidden}
 .product-logo img{width:100%;height:100%;object-fit:contain;display:block}
@@ -76,6 +78,7 @@ nav .active{background:var(--red);padding:10px 17px;border-radius:25px;color:#ff
 .checkout .red-btn{width:100%;margin-top:10px}
 .checkout label{display:block;color:#ddd;font-size:13px;margin-top:12px}
 #selectedPrice{font-size:22px;font-weight:bold}
+#paymentStatus{display:none;padding:13px;margin-top:15px;border-radius:8px;font-size:13px;line-height:1.6;background:#211016;border:1px solid #ff174455;color:#fff}
 footer{border-top:1px solid #ff174433;padding:45px 0 20px;background:#050505;position:relative;overflow:hidden}
 .footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:25px}
 footer h3{font-size:16px}
@@ -96,6 +99,7 @@ nav.open{display:flex}.menu-toggle{display:block}
 }
 </style>
 </head>
+
 <body>
 <header>
 <div class="container nav">
@@ -103,11 +107,17 @@ nav.open{display:flex}.menu-toggle{display:block}
 <div class="logo-icon">B⚡</div>
 <div class="logo-text">BHADEX <span>PLUGS</span><small>PREMIUM STORE</small></div>
 </a>
+
 <nav id="mainNav">
-<a class="active" href="#">Home</a><a href="#products">Products ▾</a><a href="#about">About</a><a href="#faqs">FAQs</a><a href="#contact">Contact</a>
+<a class="active" href="#">Home</a>
+<a href="#products">Products ▾</a>
+<a href="#about">About</a>
+<a href="#faqs">FAQs</a>
+<a href="#contact">Contact</a>
 </nav>
+
 <div class="actions">
-<button onclick="searchProducts()" aria-label="Search products" style="font-size:23px;cursor:pointer;background:none;color:white;border:0">⌕</button>
+<button onclick="searchProducts()" aria-label="Search products" style="font-size:23px;background:none;color:white;border:0">⌕</button>
 <span style="color:#444">|</span>
 <a class="cart" href="#checkout" aria-label="Go to checkout">🛒<span class="cart-count" id="cartCount">0</span></a>
 <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">☰</button>
@@ -122,12 +132,16 @@ nav.open{display:flex}.menu-toggle{display:block}
 <h1>BHADEX<br><span>PLUGS</span></h1>
 <p>Your one-stop plug for premium subscriptions and digital services.</p>
 <div class="features">
-<div><span>✓</span> Clear product options</div><div><span>✓</span> Secure checkout</div><div><span>✓</span> Customer support</div>
+<div><span>✓</span> Clear product options</div>
+<div><span>✓</span> Secure checkout</div>
+<div><span>✓</span> Customer support</div>
 </div>
 <a href="#products" class="red-btn">Shop Marketplace →</a>
 </div>
+
 <div class="hero-art">
-<div class="splash"></div><div class="crown">👑</div>
+<div class="splash"></div>
+<div class="crown">👑</div>
 <div class="float f1"><img src="https://cdn.simpleicons.org/netflix/E50914" alt="Netflix"></div>
 <div class="float f2"><img src="https://cdn.simpleicons.org/youtube/FF0000" alt="YouTube"></div>
 <div class="float f3"><img src="https://cdn.simpleicons.org/spotify/1DB954" alt="Spotify"></div>
@@ -138,39 +152,70 @@ nav.open{display:flex}.menu-toggle{display:block}
 
 <div id="products">
 <section class="category">
-<div class="category-head"><h2><span>▶</span> Streaming / Music / Video</h2><button class="view" onclick="showAll('streaming')">View All →</button></div>
+<div class="category-head">
+<h2><span>▶</span> Streaming / Music / Video</h2>
+<button class="view" onclick="showAll('streaming')">View All →</button>
+</div>
 <div class="products" id="streaming"></div>
 </section>
+
 <section class="category">
-<div class="category-head"><h2><span>♟</span> Social Media Services</h2><button class="view" onclick="showAll('social')">View All →</button></div>
+<div class="category-head">
+<h2><span>♟</span> Social Media Services</h2>
+<button class="view" onclick="showAll('social')">View All →</button>
+</div>
 <div class="products" id="social"></div>
 </section>
+
 <section class="category">
-<div class="category-head"><h2><span>✎</span> Editing / Design / AI / Productivity</h2><button class="view" onclick="showAll('design')">View All →</button></div>
+<div class="category-head">
+<h2><span>✎</span> Editing / Design / AI / Productivity</h2>
+<button class="view" onclick="showAll('design')">View All →</button>
+</div>
 <div class="products" id="design"></div>
 </section>
 </div>
 
 <section class="banners">
-<div class="banner"><div class="benefits">
+<div class="banner">
+<div class="benefits">
 <div class="benefit"><div>🛡️</div>Secure<br>Transactions</div>
 <div class="benefit"><div>⚡</div>Clear<br>Activation Process</div>
 <div class="benefit"><div>🎧</div>Customer<br>Support</div>
-</div></div>
-<div class="banner cta"><div class="crown">👑</div><h2>Find Your Next Digital Essential</h2><p>Choose a product and package, then contact us if you need help.</p><a href="https://wa.me/233552817566" class="red-btn">Contact Us →</a></div>
+</div>
+</div>
+
+<div class="banner cta">
+<div class="crown">👑</div>
+<h2>Find Your Next Digital Essential</h2>
+<p>Choose a product and package, then contact us if you need help.</p>
+<a href="https://wa.me/233552817566" class="red-btn">Contact Us →</a>
+</div>
 </section>
 
 <section class="category" id="checkout">
 <div class="category-head"><h2><span>💳</span> Secure Checkout</h2></div>
+
 <div class="checkout">
 <h3 id="selectedProduct">Select a product first</h3>
+
 <label for="productOption">Choose a package</label>
-<select id="productOption" disabled onchange="updateSelectedOption()"><option value="">Select a product first</option></select>
+<select id="productOption" disabled onchange="updateSelectedOption()">
+<option value="">Select a product first</option>
+</select>
+
 <p id="selectedPrice" style="color:#ff526e">GH₵ 0.00</p>
+
 <label for="customerEmail">Email address</label>
 <input id="customerEmail" type="email" placeholder="Enter your email address" autocomplete="email">
-<button class="red-btn" onclick="payNow()">CONTINUE TO PAYMENT →</button>
-<p class="small-note">Paystack test mode is currently retained. A successful popup response is not proof that a payment has been verified. Orders must be verified securely on a server before any product or service is delivered.</p>
+
+<button class="red-btn" id="payButton" onclick="payNow()">CONTINUE TO PAYMENT →</button>
+
+<div id="paymentStatus" role="status" aria-live="polite"></div>
+
+<p class="small-note">
+Payments are processed through Paystack. Payment must be verified by the server before an order is considered paid or any service is delivered.
+</p>
 </div>
 </section>
 
@@ -184,64 +229,119 @@ nav.open{display:flex}.menu-toggle{display:block}
 <footer id="contact">
 <div class="container">
 <div class="footer-grid">
-<div><div class="brand"><div class="logo-icon">B⚡</div><div class="logo-text">BHADEX <span>PLUGS</span></div></div><p>Plug Smart. Live Premium.</p></div>
-<div><h3>Quick Links</h3><p><a href="#">› Home</a></p><p><a href="#products">› Products</a></p><p><a href="#about">› About</a></p><p><a href="#faqs">› FAQs</a></p><p><a href="#contact">› Contact</a></p></div>
-<div><h3>Support</h3><p><a href="https://wa.me/233552817566">› WhatsApp Us</a></p><p><a href="mailto:bhadexplugs@gmail.com">› Email Us</a></p></div>
-<div><h3>Follow Us</h3><p><a href="https://wa.me/233552817566">🟢 WhatsApp</a></p><p><a href="mailto:bhadexplugs@gmail.com">✉ Email</a></p></div>
+<div>
+<div class="brand">
+<div class="logo-icon">B⚡</div>
+<div class="logo-text">BHADEX <span>PLUGS</span></div>
 </div>
-<div class="footer-bottom"><span>© 2026 BHADEX Plugs. All Rights Reserved.</span><span>Powered by BHADEX ❤️</span></div>
+<p>Plug Smart. Live Premium.</p>
+</div>
+
+<div>
+<h3>Quick Links</h3>
+<p><a href="#">› Home</a></p>
+<p><a href="#products">› Products</a></p>
+<p><a href="#about">› About</a></p>
+<p><a href="#faqs">› FAQs</a></p>
+<p><a href="#contact">› Contact</a></p>
+</div>
+
+<div>
+<h3>Support</h3>
+<p><a href="https://wa.me/233552817566">› WhatsApp Us</a></p>
+<p><a href="mailto:bhadexplugs@gmail.com">› Email Us</a></p>
+</div>
+
+<div>
+<h3>Follow Us</h3>
+<p><a href="https://wa.me/233552817566">🟢 WhatsApp</a></p>
+<p><a href="mailto:bhadexplugs@gmail.com">✉ Email</a></p>
+</div>
+</div>
+
+<div class="footer-bottom">
+<span>© 2026 BHADEX Plugs. All Rights Reserved.</span>
+<span>Powered by BHADEX ❤️</span>
+</div>
 </div>
 </footer>
+
 <a class="whatsapp" href="https://wa.me/233552817566" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">☏</a>
 
 <script>
-/* Keep the existing Paystack TEST public key. Do not use a secret key in browser code. */
-const PAYSTACK_PUBLIC_KEY = "pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
+/*
+  BHADEX PLUGS
+  Payments are initialized by the backend.
+  Never put a Paystack secret key in this file.
+*/
+
+const PAYMENT_SERVER = "https://bhadex-payment-server.onrender.com";
 
 const catalog = [
-  {id:"netflix",name:"Netflix",category:"streaming",logo:"https://cdn.simpleicons.org/netflix/E50914",options:[["Standard",45],["Premium",60]]},
-  {id:"spotify",name:"Spotify",category:"streaming",logo:"https://cdn.simpleicons.org/spotify/1DB954",options:[["Individual",30],["Duo",45],["Family",60]]},
-  {id:"youtube",name:"YouTube Premium",category:"streaming",logo:"https://cdn.simpleicons.org/youtube/FF0000",options:[["Individual",40],["Family",65]]},
-  {id:"applemusic",name:"Apple Music",category:"streaming",logo:"https://cdn.simpleicons.org/applemusic/FA243C",options:[["Individual",30],["Family",50]]},
-  {id:"disney",name:"Disney+",category:"streaming",logo:"https://cdn.simpleicons.org/disneyplus/113CCF",options:[["Standard",55],["Premium",70]]},
-  {id:"amazon",name:"Amazon Prime Video",category:"streaming",logo:"https://cdn.simpleicons.org/amazonprimevideo/00A8E1",options:[["Monthly access",45]]},
-  {id:"boomplay",name:"Boomplay",category:"streaming",logo:"https://cdn.simpleicons.org/boomplay/FFCC00",options:[["Premium",25]]},
-  {id:"audiomack",name:"Audiomack",category:"streaming",logo:"https://cdn.simpleicons.org/audiomack/FFA200",options:[["Premium",20]]},
-  {id:"moviebox",name:"MovieBox",category:"streaming",logo:"https://www.google.com/s2/favicons?domain=moviebox.ph&sz=128",options:[["Access",35]]},
+  {id:"netflix",name:"Netflix",serverName:"Netflix",category:"streaming",logo:"https://cdn.simpleicons.org/netflix/E50914",options:[["Standard",45],["Premium",60]]},
+  {id:"spotify",name:"Spotify",serverName:"Spotify Premium",category:"streaming",logo:"https://cdn.simpleicons.org/spotify/1DB954",options:[["Individual",30],["Duo",45],["Family",60]]},
+  {id:"youtube",name:"YouTube Premium",serverName:"YouTube Premium",category:"streaming",logo:"https://cdn.simpleicons.org/youtube/FF0000",options:[["Individual",40],["Family",65]]},
+  {id:"applemusic",name:"Apple Music",serverName:"Apple Music",category:"streaming",logo:"https://cdn.simpleicons.org/applemusic/FA243C",options:[["Individual",30],["Family",50]]},
+  {id:"disney",name:"Disney+",serverName:"Disney+",category:"streaming",logo:"https://cdn.simpleicons.org/disneyplus/113CCF",options:[["Standard",55],["Premium",70]]},
+  {id:"amazon",name:"Amazon Prime Video",serverName:"Amazon Prime Video",category:"streaming",logo:"https://cdn.simpleicons.org/amazonprimevideo/00A8E1",options:[["Monthly access",45]]},
+  {id:"boomplay",name:"Boomplay",serverName:"Boomplay Premium",category:"streaming",logo:"https://cdn.simpleicons.org/boomplay/FFCC00",options:[["Monthly",25]]},
+  {id:"audiomack",name:"Audiomack",serverName:"Audiomack Premium",category:"streaming",logo:"https://cdn.simpleicons.org/audiomack/FFA200",options:[["Monthly",20]]},
+  {id:"moviebox",name:"MovieBox",serverName:"MovieBox",category:"streaming",logo:"https://www.google.com/s2/favicons?domain=moviebox.ph&sz=128",options:[["Access",35]]},
 
-  {id:"tiktok",name:"TikTok Services",category:"social",logo:"https://cdn.simpleicons.org/tiktok/000000",options:[["Profile setup",25],["Content plan",45]]},
-  {id:"telegram",name:"Telegram Premium",category:"social",logo:"https://cdn.simpleicons.org/telegram/26A5E4",options:[["Monthly",45]]},
-  {id:"snapchat",name:"Snapchat+",category:"social",logo:"https://cdn.simpleicons.org/snapchat/FFFC00",options:[["Monthly",30]]},
-  {id:"x",name:"X Premium",category:"social",logo:"https://cdn.simpleicons.org/x/000000",options:[["Monthly",50]]},
-  {id:"instagram",name:"Instagram Services",category:"social",logo:"https://cdn.simpleicons.org/instagram/E4405F",options:[["Profile setup",25],["Content plan",45]]},
-  {id:"facebook",name:"Facebook Services",category:"social",logo:"https://cdn.simpleicons.org/facebook/0866FF",options:[["Page setup",25],["Content plan",45]]},
+  {id:"tiktok",name:"TikTok Services",serverName:"TikTok Services",category:"social",logo:"https://cdn.simpleicons.org/tiktok/000000",options:[["Profile setup",25],["Content plan",45]]},
+  {id:"telegram",name:"Telegram Premium",serverName:"Telegram Premium",category:"social",logo:"https://cdn.simpleicons.org/telegram/26A5E4",options:[["Monthly",45]]},
+  {id:"snapchat",name:"Snapchat+",serverName:"Snapchat+",category:"social",logo:"https://cdn.simpleicons.org/snapchat/FFFC00",options:[["Monthly",30]]},
+  {id:"x",name:"X Premium",serverName:"X Premium",category:"social",logo:"https://cdn.simpleicons.org/x/000000",options:[["Monthly",50]]},
+  {id:"instagram",name:"Instagram Services",serverName:"Instagram Services",category:"social",logo:"https://cdn.simpleicons.org/instagram/E4405F",options:[["Profile setup",25],["Content plan",45]]},
+  {id:"facebook",name:"Facebook Services",serverName:"Facebook Services",category:"social",logo:"https://cdn.simpleicons.org/facebook/0866FF",options:[["Page setup",25],["Content plan",45]]},
 
-  {id:"capcut",name:"CapCut Pro",category:"design",logo:"https://cdn.simpleicons.org/capcut/000000",options:[["Monthly",35]]},
-  {id:"canva",name:"Canva Pro",category:"design",logo:"https://cdn.simpleicons.org/canva/00C4CC",options:[["Pro access",35]]},
-  {id:"chatgpt",name:"ChatGPT Plus",category:"design",logo:"https://cdn.simpleicons.org/openai/000000",options:[["Monthly",100]]},
-  {id:"gemini",name:"Gemini Advanced",category:"design",logo:"https://cdn.simpleicons.org/googlegemini/4285F4",options:[["Monthly",80]]},
-  {id:"microsoft365",name:"Microsoft 365",category:"design",logo:"https://cdn.simpleicons.org/microsoft365/D83B01",options:[["Personal",75],["Family",110]]},
-  {id:"googleone",name:"Google One",category:"design",logo:"https://cdn.simpleicons.org/googleone/4285F4",options:[["100 GB",20],["200 GB",30],["2 TB",55]]}
+  {id:"capcut",name:"CapCut Pro",serverName:"CapCut Pro",category:"design",logo:"https://cdn.simpleicons.org/capcut/000000",options:[["Monthly",35]]},
+  {id:"canva",name:"Canva Pro",serverName:"Canva Pro",category:"design",logo:"https://cdn.simpleicons.org/canva/00C4CC",options:[["Pro access",35]]},
+  {id:"chatgpt",name:"ChatGPT Plus",serverName:"ChatGPT Plus",category:"design",logo:"https://cdn.simpleicons.org/openai/000000",options:[["Monthly",100]]},
+  {id:"gemini",name:"Gemini Advanced",serverName:"Gemini Advanced",category:"design",logo:"https://cdn.simpleicons.org/googlegemini/4285F4",options:[["Monthly",80]]},
+  {id:"microsoft365",name:"Microsoft 365",serverName:"Microsoft 365",category:"design",logo:"https://cdn.simpleicons.org/microsoft365/D83B01",options:[["Personal",75],["Family",110]]},
+  {id:"googleone",name:"Google One",serverName:"Google One",category:"design",logo:"https://cdn.simpleicons.org/googleone/4285F4",options:[["100 GB",20],["200 GB",30],["2 TB",55]]}
 ];
 
 let selectedProduct = null;
-let selectedOption = null;
+let selectedOption = 0;
 let cartCount = 0;
+
+function showPaymentStatus(message,type="info"){
+  const status=document.getElementById("paymentStatus");
+  status.style.display="block";
+  status.textContent=message;
+
+  if(type==="success"){
+    status.style.borderColor="#168b50";
+    status.style.background="#082016";
+  }else if(type==="error"){
+    status.style.borderColor="#ff1744";
+    status.style.background="#260910";
+  }else{
+    status.style.borderColor="#ff174455";
+    status.style.background="#211016";
+  }
+}
 
 function renderProducts(){
   ["streaming","social","design"].forEach(category=>{
     const holder=document.getElementById(category);
     holder.innerHTML="";
+
     catalog.filter(item=>item.category===category).forEach(item=>{
       const lowest=Math.min(...item.options.map(option=>option[1]));
       const card=document.createElement("button");
+
       card.type="button";
       card.className="product";
       card.setAttribute("aria-label","Choose "+item.name);
+
       card.innerHTML=
         '<div class="product-logo"><img src="'+item.logo+'" alt="'+item.name+' logo" loading="lazy"></div>'+
         '<div class="product-name">'+item.name+'</div>'+
         '<div class="product-price">From GH₵ '+lowest.toFixed(2)+'</div>';
+
       card.addEventListener("click",()=>choose(item.id));
       holder.appendChild(card);
     });
@@ -251,80 +351,68 @@ function renderProducts(){
 function choose(id){
   const item=catalog.find(product=>product.id===id);
   if(!item)return;
+
   selectedProduct=item;
   selectedOption=0;
   cartCount++;
+
   document.getElementById("cartCount").innerText=cartCount;
   document.getElementById("selectedProduct").innerText=item.name;
+
   const selector=document.getElementById("productOption");
   selector.disabled=false;
   selector.innerHTML="";
+
   item.options.forEach((option,index)=>{
     const entry=document.createElement("option");
     entry.value=String(index);
     entry.textContent=option[0]+" — GH₵ "+option[1].toFixed(2);
     selector.appendChild(entry);
   });
+
   selector.value="0";
   updateSelectedOption();
+
+  document.getElementById("paymentStatus").style.display="none";
   document.getElementById("checkout").scrollIntoView({behavior:"smooth"});
 }
 
 function updateSelectedOption(){
   if(!selectedProduct)return;
+
   const index=Number(document.getElementById("productOption").value);
   selectedOption=Number.isInteger(index)?index:0;
+
   const option=selectedProduct.options[selectedOption];
+  if(!option)return;
+
   document.getElementById("selectedPrice").innerText="GH₵ "+option[1].toFixed(2);
 }
 
-function payNow(){
+async function payNow(){
   const email=document.getElementById("customerEmail").value.trim();
-  if(!selectedProduct){alert("Please select a product first.");return;}
-  if(!email||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert("Please enter a valid email address.");return;}
-  if(typeof PaystackPop==="undefined"){alert("Paystack failed to load. Check your internet connection.");return;}
+  const button=document.getElementById("payButton");
+
+  if(!selectedProduct){
+    alert("Please select a product first.");
+    return;
+  }
+
+  if(!email||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert("Please enter a valid email address.");
+    return;
+  }
 
   const option=selectedProduct.options[selectedOption];
-  const amount=option[1];
-  const popup=new PaystackPop();
-  popup.newTransaction({
-    key:PAYSTACK_PUBLIC_KEY,
-    email:email,
-    amount:Math.round(amount*100),
-    currency:"GHS",
-    channels:["card","mobile_money"],
-    metadata:{
-      custom_fields:[
-        {display_name:"Product",variable_name:"product",value:selectedProduct.name},
-        {display_name:"Package",variable_name:"package",value:option[0]}
-      ]
-    },
-    onSuccess:(transaction)=>{
-      alert("Paystack returned reference: "+transaction.reference+". This is not final payment verification. Please wait for the store to verify the payment before delivery.");
-    },
-    onCancel:()=>alert("Payment cancelled."),
-    onError:(error)=>alert("Payment error: "+(error.message||"Please try again."))
-  });
-}
 
-function toggleMenu(){document.getElementById("mainNav").classList.toggle("open");}
-function showAll(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});}
-function searchProducts(){
-  const term=prompt("Search for a product:");
-  if(!term)return;
-  const query=term.toLowerCase();
-  let found=false;
-  document.querySelectorAll(".product").forEach(card=>{
-    const match=card.innerText.toLowerCase().includes(query);
-    card.style.display=match?"":"none";
-    if(match)found=true;
-  });
-  if(!found)alert("No matching product found.");
-}
-document.querySelectorAll("#mainNav a").forEach(link=>{
-  link.addEventListener("click",()=>document.getElementById("mainNav").classList.remove("open"));
-});
-renderProducts();
-</script>
-</body>
-  </html>
+  if(!option){
+    alert("Please select a valid package.");
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent="CONNECTING TO PAYSTACK...";
+  showPaymentStatus("Preparing your secure payment. Please wait.");
+
+  try{
+    const response=await
