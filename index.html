@@ -92,45 +92,46 @@ input{padding:12px;border-radius:8px;border:1px solid #34415b;background:#111a2b
 <p>Premium digital subscriptions made simple.</p>
 </footer>
 
+
 <script>
 const PAYSTACK_PUBLIC_KEY = "pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
 
-function buy(product, price){
-const email=document.getElementById("customerEmail").value.trim();
+async function buy(product, price) {
+  const email = document.getElementById("customerEmail").value.trim();
 
-if(!email || !email.includes("@")){
-alert("Please enter a valid email address first.");
-return;
-}
+  if (!email || !email.includes("@")) {
+    alert("Please enter a valid email address.");
+    return;
+  }
 
-if(PAYSTACK_PUBLIC_KEY==="YOUR_PAYSTACK_PUBLIC_KEY"){
-alert("Paystack is not connected yet. We need your Paystack public key.");
-return;
-}
+  if (typeof Paystack === "undefined") {
+    alert("Paystack failed to load. Refresh the page.");
+    return;
+  }
 
-const paystack = new Paystack();
+  const paystack = new Paystack();
 
-paystack.checkout({
-key: PAYSTACK_PUBLIC_KEY,
-email: email,
-amount: price * 100,
-currency: "GHS",
-channels: ["card","mobile_money"],
-metadata: {
-custom_fields: [
-{display_name:"Product",variable_name:"product",value:product}
-]
-},
-onSuccess: function(transaction){
-alert("Payment submitted! Reference: "+transaction.reference+
-". Your order must be verified before delivery.");
-},
-onCancel: function(){
-alert("Payment cancelled.");
-}
-});
+  try {
+    paystack.checkout({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      amount: price * 100,
+      currency: "GHS",
+      channels: ["card", "mobile_money"],
+      onSuccess: (transaction) => {
+        alert("Payment reference: " + transaction.reference);
+      },
+      onCancel: () => {
+        alert("Payment cancelled.");
+      },
+      onError: (error) => {
+        alert("Payment error: " + error.message);
+      }
+    });
+  } catch (error) {
+    alert("Checkout error: " + error.message);
+  }
 }
 </script>
 </body>
-                                       </html>
-  
+</html> 
