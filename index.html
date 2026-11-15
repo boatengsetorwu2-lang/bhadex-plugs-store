@@ -10,28 +10,143 @@
 
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#090d18;color:white}
-header{padding:22px 7%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #20283a}
-.logo{font-size:25px;font-weight:bold;color:#64f5c1}
-nav a{color:white;text-decoration:none;margin-left:20px}
-.hero{text-align:center;padding:65px 20px;background:linear-gradient(135deg,#111b35,#07100e)}
-.hero h1{font-size:43px;margin:0 0 15px}
-.hero h1 span{color:#64f5c1}
-.hero p{color:#b8c2d8}
-.btn{background:#64f5c1;color:#07110e;padding:13px 22px;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
-.products{padding:35px 7%}
-.products h2{text-align:center;font-size:30px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:30px}
-.card{background:#121a2b;border:1px solid #27334b;border-radius:15px;padding:22px;text-align:center}
-.icon{font-size:45px}
-.card h3{margin:15px 0 8px}
-.price{font-size:25px;color:#64f5c1;font-weight:bold;margin:15px}
-.card p{color:#aab5cb;font-size:14px}
-footer{text-align:center;padding:30px;color:#8c98ad;border-top:1px solid #20283a}
-input{padding:12px;border-radius:8px;border:1px solid #34415b;background:#111a2b;color:white;width:100%;margin:8px 0}
-#emailbox{max-width:350px;margin:20px auto;padding:15px}
-button:disabled{opacity:.6;cursor:not-allowed}
-@media(max-width:600px){.hero h1{font-size:30px}header{padding:18px 5%}}
+html{scroll-behavior:smooth}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#080b14;
+color:#fff;
+}
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 7%;
+border-bottom:1px solid #20283a;
+}
+.logo{
+font-size:24px;
+font-weight:bold;
+color:#61ffc5;
+}
+nav a{
+color:#ddd;
+text-decoration:none;
+margin-left:20px;
+}
+.hero{
+padding:90px 20px;
+text-align:center;
+background:radial-gradient(circle at top,#17342e,#080b14 70%);
+}
+.hero .tag{
+color:#61ffc5;
+border:1px solid #245a4c;
+padding:8px 15px;
+border-radius:30px;
+display:inline-block;
+font-size:13px;
+}
+.hero h1{
+font-size:50px;
+max-width:750px;
+margin:25px auto;
+line-height:1.15;
+}
+.hero h1 span{color:#61ffc5}
+.hero p{
+color:#aebbd0;
+font-size:17px;
+line-height:1.7;
+}
+.btn{
+display:inline-block;
+padding:14px 25px;
+border:0;
+border-radius:9px;
+background:#61ffc5;
+color:#06120d;
+font-weight:bold;
+text-decoration:none;
+cursor:pointer;
+}
+.btn:hover{opacity:.85}
+.hero .btn{margin-top:20px}
+.section{padding:65px 7%}
+.section-title{text-align:center}
+.section-title h2{font-size:32px}
+.section-title p{color:#aab5cb}
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:22px;
+margin-top:35px;
+}
+.card{
+background:linear-gradient(145deg,#141c2d,#0d1320);
+border:1px solid #26334a;
+border-radius:16px;
+padding:25px;
+transition:.2s;
+}
+.card:hover{
+transform:translateY(-5px);
+border-color:#61ffc5;
+}
+.icon{
+font-size:42px;
+margin-bottom:15px;
+}
+.card h3{font-size:21px}
+.card p{
+color:#aab5cb;
+font-size:14px;
+line-height:1.6;
+}
+.price{
+font-size:28px;
+font-weight:bold;
+color:#61ffc5;
+margin:20px 0;
+}
+.price small{
+font-size:12px;
+color:#aab5cb;
+font-weight:normal;
+}
+.card .btn{width:100%}
+.checkout{
+max-width:500px;
+margin:30px auto 0;
+background:#111827;
+padding:25px;
+border-radius:15px;
+border:1px solid #26334a;
+}
+input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border-radius:8px;
+border:1px solid #34415b;
+background:#080b14;
+color:white;
+}
+.checkout .btn{width:100%;margin-top:10px}
+footer{
+text-align:center;
+padding:35px 20px;
+border-top:1px solid #20283a;
+color:#8996ad;
+}
+footer a{color:#61ffc5;text-decoration:none}
+@media(max-width:600px){
+.hero h1{font-size:34px}
+header{padding:18px 5%}
+.logo{font-size:19px}
+nav a{margin-left:10px;font-size:13px}
+.section{padding:45px 5%}
+}
 </style>
 </head>
 
@@ -41,104 +156,190 @@ button:disabled{opacity:.6;cursor:not-allowed}
 <div class="logo">BHADEX PLUGS</div>
 <nav>
 <a href="#products">Products</a>
+<a href="#checkout">Checkout</a>
 <a href="#contact">Contact</a>
 </nav>
 </header>
 
 <section class="hero">
-<h1>Unlock Your <span>Premium</span> Experience</h1>
-<p>Your trusted destination for digital subscriptions.</p>
-<a href="#products"><button class="btn">Explore Products</button></a>
+<span class="tag">YOUR DIGITAL PREMIUM STORE</span>
+
+<h1>Upgrade Your Digital <span>Experience</span></h1>
+
+<p>
+Discover premium digital subscriptions and creative tools
+<br>
+all in one place.
+</p>
+
+<a href="#products" class="btn">Explore Products →</a>
 </section>
 
-<section class="products" id="products">
+<section class="section" id="products">
+
+<div class="section-title">
 <h2>Popular Subscriptions</h2>
+<p>Choose your preferred digital subscription.</p>
+</div>
 
 <div class="grid">
 
 <div class="card">
 <div class="icon">🎨</div>
 <h3>Canva Pro</h3>
-<p>Premium design tools and creative features.</p>
+<p>Unlock premium design tools and creative features.</p>
 <div class="price">GH₵ 35</div>
-<button class="btn" onclick="buy('Canva Pro',35)">Buy Now</button>
+<button class="btn" onclick="selectProduct('Canva Pro',35)">Buy Now</button>
 </div>
 
 <div class="card">
 <div class="icon">🎵</div>
 <h3>Spotify Premium</h3>
-<p>Enjoy premium music streaming.</p>
+<p>Enjoy premium music streaming features.</p>
 <div class="price">GH₵ 30</div>
-<button class="btn" onclick="buy('Spotify Premium',30)">Buy Now</button>
+<button class="btn" onclick="selectProduct('Spotify Premium',30)">Buy Now</button>
+</div>
+
+<div class="card">
+<div class="icon">▶️</div>
+<h3>YouTube Premium</h3>
+<p>Enjoy an enhanced YouTube experience.</p>
+<div class="price">GH₵ 40</div>
+<button class="btn" onclick="selectProduct('YouTube Premium',40)">Buy Now</button>
+</div>
+
+<div class="card">
+<div class="icon">🍎</div>
+<h3>Apple Music</h3>
+<p>Discover music and enjoy premium listening.</p>
+<div class="price">GH₵ 30</div>
+<button class="btn" onclick="selectProduct('Apple Music',30)">Buy Now</button>
 </div>
 
 <div class="card">
 <div class="icon">🎬</div>
 <h3>Streaming Plans</h3>
-<p>Explore available streaming subscriptions.</p>
+<p>Explore available entertainment subscriptions.</p>
 <div class="price">GH₵ 50</div>
-<button class="btn" onclick="buy('Streaming Plan',50)">Buy Now</button>
+<button class="btn" onclick="selectProduct('Streaming Plan',50)">Buy Now</button>
 </div>
 
 <div class="card">
 <div class="icon">💎</div>
 <h3>Other Premium</h3>
-<p>Discover more digital subscription plans.</p>
+<p>Discover more premium digital services.</p>
 <div class="price">GH₵ 25</div>
-<button class="btn" onclick="buy('Other Premium',25)">Buy Now</button>
+<button class="btn" onclick="selectProduct('Other Premium',25)">Buy Now</button>
 </div>
 
 </div>
 </section>
 
-<section id="emailbox">
-<h3>Checkout</h3>
-<input id="customerEmail" type="email" placeholder="Enter your email address">
-<p style="color:#9caac1;font-size:13px">
-Payments processed securely by Paystack.
+<section class="section" id="checkout">
+
+<div class="section-title">
+<h2>Secure Checkout</h2>
+<p>Complete your order using Paystack.</p>
+</div>
+
+<div class="checkout">
+
+<h3 id="selectedProduct">Select a product first</h3>
+<p id="selectedPrice" style="color:#61ffc5">GH₵ 0.00</p>
+
+<input
+id="customerEmail"
+type="email"
+placeholder="Enter your email address"
+required
+>
+
+<button class="btn" onclick="payNow()">Continue to Payment</button>
+
+<p style="font-size:12px;color:#8996ad;text-align:center">
+Secure payment powered by Paystack.
 </p>
+
+</div>
 </section>
 
 <footer id="contact">
-<p>© 2026 Bhadex Plugs</p>
-<p>Premium digital subscriptions made simple.</p>
+<h3 style="color:#61ffc5">BHADEX PLUGS</h3>
+<p>Your trusted digital subscription store.</p>
+<p>© 2026 Bhadex Plugs. All rights reserved.</p>
 </footer>
 
 <script>
+
 const PAYSTACK_PUBLIC_KEY =
 "pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
 
-async function buy(product,price){
+let selectedProduct = "";
+let selectedAmount = 0;
 
-const email=document.getElementById("customerEmail").value.trim();
+function selectProduct(product,price){
 
-if(!email||!email.includes("@")){
+selectedProduct = product;
+selectedAmount = price;
+
+document.getElementById("selectedProduct").innerText = product;
+document.getElementById("selectedPrice").innerText =
+"GH₵ " + price.toFixed(2);
+
+document.getElementById("checkout").scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function payNow(){
+
+const email = document.getElementById("customerEmail").value.trim();
+
+if(!selectedProduct){
+alert("Please select a product first.");
+return;
+}
+
+if(!email || !email.includes("@")){
 alert("Please enter a valid email address.");
 return;
 }
 
-if(typeof PaystackPop==="undefined"){
-alert("Paystack library did not load. Check your internet connection.");
+if(typeof PaystackPop === "undefined"){
+alert("Paystack failed to load. Check your internet connection.");
 return;
 }
 
-const popup=new PaystackPop();
-
-try{
+const popup = new PaystackPop();
 
 popup.newTransaction({
+
 key:PAYSTACK_PUBLIC_KEY,
+
 email:email,
-amount:price*100,
+
+amount:selectedAmount * 100,
+
 currency:"GHS",
+
 channels:["card","mobile_money"],
 
 metadata:{
-product:product
+custom_fields:[
+{
+display_name:"Product",
+variable_name:"product",
+value:selectedProduct
+}
+]
 },
 
 onSuccess:(transaction)=>{
-alert("Payment reference: "+transaction.reference);
+alert(
+"Payment completed! Reference: " +
+transaction.reference
+);
 },
 
 onCancel:()=>{
@@ -146,16 +347,14 @@ alert("Payment cancelled.");
 },
 
 onError:(error)=>{
-alert("Payment error: "+error.message);
+alert("Payment error: " + error.message);
 }
+
 });
 
-}catch(error){
-alert("Checkout error: "+error.message);
 }
-}
+
 </script>
 
 </body>
-  </html>
-  
+</html>
