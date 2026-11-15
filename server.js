@@ -2,6 +2,7 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
@@ -10,7 +11,6 @@ app.use(express.json());
 
 const PAYSTACK_SECRET_KEY = process.env.PAYSTACK_SECRET_KEY;
 
-// Prices are in Ghana cedis (GH₵).
 const PRODUCTS = {
   "Netflix": {
     "Standard": 45,
@@ -91,19 +91,22 @@ const PRODUCTS = {
 
 function findPrice(product, selectedPackage) {
   const productKey = Object.keys(PRODUCTS).find(
-    key => key.toLowerCase() === String(product || "").trim().toLowerCase()
+    key => key.toLowerCase() ===
+      String(product || "").trim().toLowerCase()
   );
 
   if (!productKey) return null;
 
   const packages = PRODUCTS[productKey];
+
   const packageKey = Object.keys(packages).find(
-    key => key.toLowerCase() === String(selectedPackage || "").trim().toLowerCase()
+    key => key.toLowerCase() ===
+      String(selectedPackage || "").trim().toLowerCase()
   );
 
-  // Allow an omitted package only when the product has one option.
   if (!packageKey && Object.keys(packages).length === 1) {
     const onlyPackage = Object.keys(packages)[0];
+
     return {
       product: productKey,
       selectedPackage: onlyPackage,
@@ -120,11 +123,12 @@ function findPrice(product, selectedPackage) {
   };
 }
 
+// Serve the BHADEX one-page website.
 app.get("/", (req, res) => {
-  res.send("BHADEX PLUGS payment server is running.");
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-// Initialize Paystack payment
+// Initialize Paystack payment.
 app.post("/initialize", async (req, res) => {
   try {
     if (!PAYSTACK_SECRET_KEY) {
@@ -133,7 +137,12 @@ app.post("/initialize", async (req, res) => {
       });
     }
 
-    const { email, product, package: selectedPackage } = req.body;
+    const {
+      email,
+      product,
+      package: selectedPackage,
+      callback_url
+    } = req.body;
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({
@@ -149,18 +158,30 @@ app.post("/initialize", async (req, res) => {
       });
     }
 
+    const paymentData = {
+      email: email,
+      amount: Math.round(order.amount * 100),
+      currency: "GHS",
+      channels: ["card", "mobile_money"],
+      metadata: {
+        product: order.product,
+        package: order.selectedPackage
+      }
+    };
+
+    // Allow the BHADEX website to receive the payment return.
+    if (
+      typeof callback_url === "string" &&
+      callback_url.startsWith("https://") &&
+      new URL(callback_url).hostname ===
+        "bhadex-plugs-store-1.onrender.com"
+    ) {
+      paymentData.callback_url = callback_url;
+    }
+
     const response = await axios.post(
       "https://api.paystack.co/transaction/initialize",
-      {
-        email: email,
-        amount: Math.round(order.amount * 100),
-        currency: "GHS",
-        channels: ["card", "mobile_money"],
-        metadata: {
-          product: order.product,
-          package: order.selectedPackage
-        }
-      },
+      paymentData,
       {
         headers: {
           Authorization: `Bearer ${PAYSTACK_SECRET_KEY}`,
@@ -183,7 +204,7 @@ app.post("/initialize", async (req, res) => {
   }
 });
 
-// Verify payment with Paystack
+// Verify payment with Paystack.
 app.get("/verify/:reference", async (req, res) => {
   try {
     if (!PAYSTACK_SECRET_KEY) {
@@ -204,7 +225,10 @@ app.get("/verify/:reference", async (req, res) => {
     const data = response.data.data;
     const metadata = data.metadata || {};
 
-    const order = findPrice(metadata.product, metadata.package);
+    const order = findPrice(
+      metadata.product,
+      metadata.package
+    );
 
     const verified =
       data.status === "success" &&
@@ -239,4 +263,4 @@ const PORT = process.env.PORT || 10000;
 app.listen(PORT, () => {
   console.log(`BHADEX PLUGS server running on port ${PORT}`);
 });
-    
+      
