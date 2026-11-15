@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#050505">
 <title>BHADEX | Premium Digital Store</title>
-<script src="https://js.paystack.co/v2/inline.js"></script>
+
 <style>
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -55,7 +56,7 @@ nav .active{background:var(--red);padding:10px 17px;border-radius:25px;color:#ff
 .category-head h2 span{color:var(--red);margin-right:8px}
 .view{background:#050505;color:#fff;border:1px solid #ff174455;padding:10px 14px;border-radius:8px}
 .products{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px}
-.product{background:#080808;border:1px solid #ffffff16;border-radius:13px;padding:15px 7px;text-align:center;cursor:pointer;transition:.2s;min-width:0}
+.product{background:#080808;border:1px solid #ffffff16;border-radius:13px;padding:15px 7px;text-align:center;cursor:pointer;transition:.2s;min-width:0;color:white;width:100%}
 .product:hover{border-color:var(--red);transform:translateY(-4px);box-shadow:0 0 20px #ff174433}
 .product-logo{height:58px;width:58px;margin:auto;display:flex;align-items:center;justify-content:center;background:#fff;border-radius:15px;padding:9px;overflow:hidden}
 .product-logo img{width:100%;height:100%;object-fit:contain;display:block}
@@ -96,6 +97,7 @@ nav.open{display:flex}.menu-toggle{display:block}
 }
 </style>
 </head>
+
 <body>
 <header>
 <div class="container nav">
@@ -104,10 +106,14 @@ nav.open{display:flex}.menu-toggle{display:block}
 <div class="logo-text">BHADEX <span>PLUGS</span><small>PREMIUM STORE</small></div>
 </a>
 <nav id="mainNav">
-<a class="active" href="#">Home</a><a href="#products">Products ▾</a><a href="#about">About</a><a href="#faqs">FAQs</a><a href="#contact">Contact</a>
+<a class="active" href="#">Home</a>
+<a href="#products">Products ▾</a>
+<a href="#about">About</a>
+<a href="#faqs">FAQs</a>
+<a href="#contact">Contact</a>
 </nav>
 <div class="actions">
-<button onclick="searchProducts()" aria-label="Search products" style="font-size:23px;cursor:pointer;background:none;color:white;border:0">⌕</button>
+<button onclick="searchProducts()" aria-label="Search products" style="font-size:23px;background:none;color:white;border:0">⌕</button>
 <span style="color:#444">|</span>
 <a class="cart" href="#checkout" aria-label="Go to checkout">🛒<span class="cart-count" id="cartCount">0</span></a>
 <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">☰</button>
@@ -122,7 +128,9 @@ nav.open{display:flex}.menu-toggle{display:block}
 <h1>BHADEX<br><span>PLUGS</span></h1>
 <p>Your one-stop plug for premium subscriptions and digital services.</p>
 <div class="features">
-<div><span>✓</span> Clear product options</div><div><span>✓</span> Secure checkout</div><div><span>✓</span> Customer support</div>
+<div><span>✓</span> Clear product options</div>
+<div><span>✓</span> Secure checkout</div>
+<div><span>✓</span> Customer support</div>
 </div>
 <a href="#products" class="red-btn">Shop Marketplace →</a>
 </div>
@@ -152,12 +160,19 @@ nav.open{display:flex}.menu-toggle{display:block}
 </div>
 
 <section class="banners">
-<div class="banner"><div class="benefits">
+<div class="banner">
+<div class="benefits">
 <div class="benefit"><div>🛡️</div>Secure<br>Transactions</div>
 <div class="benefit"><div>⚡</div>Clear<br>Activation Process</div>
 <div class="benefit"><div>🎧</div>Customer<br>Support</div>
-</div></div>
-<div class="banner cta"><div class="crown">👑</div><h2>Find Your Next Digital Essential</h2><p>Choose a product and package, then contact us if you need help.</p><a href="https://wa.me/233552817566" class="red-btn">Contact Us →</a></div>
+</div>
+</div>
+<div class="banner cta">
+<div class="crown">👑</div>
+<h2>Find Your Next Digital Essential</h2>
+<p>Choose a product and package, then contact us if you need help.</p>
+<a href="https://wa.me/233552817566" class="red-btn">Contact Us →</a>
+</div>
 </section>
 
 <section class="category" id="checkout">
@@ -169,8 +184,9 @@ nav.open{display:flex}.menu-toggle{display:block}
 <p id="selectedPrice" style="color:#ff526e">GH₵ 0.00</p>
 <label for="customerEmail">Email address</label>
 <input id="customerEmail" type="email" placeholder="Enter your email address" autocomplete="email">
-<button class="red-btn" onclick="payNow()">CONTINUE TO PAYMENT →</button>
-<p class="small-note">Paystack test mode is currently retained. A successful popup response is not proof that a payment has been verified. Orders must be verified securely on a server before any product or service is delivered.</p>
+<button class="red-btn" id="payButton" onclick="payNow()">CONTINUE TO PAYMENT →</button>
+<p class="small-note">Payments are initiated securely through the store backend. Payment confirmation must be verified by the server before delivery.</p>
+<p id="checkoutStatus" class="small-note" role="status"></p>
 </div>
 </section>
 
@@ -195,38 +211,38 @@ nav.open{display:flex}.menu-toggle{display:block}
 <a class="whatsapp" href="https://wa.me/233552817566" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">☏</a>
 
 <script>
-/* Keep the existing Paystack TEST public key. Do not use a secret key in browser code. */
-const PAYSTACK_PUBLIC_KEY = "pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
+/* Backend URL — confirm this matches your Render backend service URL */
+const BACKEND_URL = "https://bhadex-backend.onrender.com";
 
 const catalog = [
-  {id:"netflix",name:"Netflix",category:"streaming",logo:"https://cdn.simpleicons.org/netflix/E50914",options:[["Standard",45],["Premium",60]]},
-  {id:"spotify",name:"Spotify",category:"streaming",logo:"https://cdn.simpleicons.org/spotify/1DB954",options:[["Individual",30],["Duo",45],["Family",60]]},
-  {id:"youtube",name:"YouTube Premium",category:"streaming",logo:"https://cdn.simpleicons.org/youtube/FF0000",options:[["Individual",40],["Family",65]]},
-  {id:"applemusic",name:"Apple Music",category:"streaming",logo:"https://cdn.simpleicons.org/applemusic/FA243C",options:[["Individual",30],["Family",50]]},
-  {id:"disney",name:"Disney+",category:"streaming",logo:"https://cdn.simpleicons.org/disneyplus/113CCF",options:[["Standard",55],["Premium",70]]},
-  {id:"amazon",name:"Amazon Prime Video",category:"streaming",logo:"https://cdn.simpleicons.org/amazonprimevideo/00A8E1",options:[["Monthly access",45]]},
-  {id:"boomplay",name:"Boomplay",category:"streaming",logo:"https://cdn.simpleicons.org/boomplay/FFCC00",options:[["Premium",25]]},
-  {id:"audiomack",name:"Audiomack",category:"streaming",logo:"https://cdn.simpleicons.org/audiomack/FFA200",options:[["Premium",20]]},
-  {id:"moviebox",name:"MovieBox",category:"streaming",logo:"https://www.google.com/s2/favicons?domain=moviebox.ph&sz=128",options:[["Access",35]]},
+{id:"netflix",name:"Netflix",category:"streaming",logo:"https://cdn.simpleicons.org/netflix/E50914",options:[["Standard",45],["Premium",60]]},
+{id:"spotify",name:"Spotify",category:"streaming",logo:"https://cdn.simpleicons.org/spotify/1DB954",options:[["Individual",30],["Duo",45],["Family",60]]},
+{id:"youtube",name:"YouTube Premium",category:"streaming",logo:"https://cdn.simpleicons.org/youtube/FF0000",options:[["Individual",40],["Family",65]]},
+{id:"applemusic",name:"Apple Music",category:"streaming",logo:"https://cdn.simpleicons.org/applemusic/FA243C",options:[["Individual",30],["Family",50]]},
+{id:"disney",name:"Disney+",category:"streaming",logo:"https://cdn.simpleicons.org/disneyplus/113CCF",options:[["Standard",55],["Premium",70]]},
+{id:"amazon",name:"Amazon Prime Video",category:"streaming",logo:"https://cdn.simpleicons.org/amazonprimevideo/00A8E1",options:[["Monthly access",45]]},
+{id:"boomplay",name:"Boomplay",category:"streaming",logo:"https://cdn.simpleicons.org/boomplay/FFCC00",options:[["Premium",25]]},
+{id:"audiomack",name:"Audiomack",category:"streaming",logo:"https://cdn.simpleicons.org/audiomack/FFA200",options:[["Premium",20]]},
+{id:"moviebox",name:"MovieBox",category:"streaming",logo:"https://www.google.com/s2/favicons?domain=moviebox.ph&sz=128",options:[["Access",35]]},
 
-  {id:"tiktok",name:"TikTok Services",category:"social",logo:"https://cdn.simpleicons.org/tiktok/000000",options:[["Profile setup",25],["Content plan",45]]},
-  {id:"telegram",name:"Telegram Premium",category:"social",logo:"https://cdn.simpleicons.org/telegram/26A5E4",options:[["Monthly",45]]},
-  {id:"snapchat",name:"Snapchat+",category:"social",logo:"https://cdn.simpleicons.org/snapchat/FFFC00",options:[["Monthly",30]]},
-  {id:"x",name:"X Premium",category:"social",logo:"https://cdn.simpleicons.org/x/000000",options:[["Monthly",50]]},
-  {id:"instagram",name:"Instagram Services",category:"social",logo:"https://cdn.simpleicons.org/instagram/E4405F",options:[["Profile setup",25],["Content plan",45]]},
-  {id:"facebook",name:"Facebook Services",category:"social",logo:"https://cdn.simpleicons.org/facebook/0866FF",options:[["Page setup",25],["Content plan",45]]},
+{id:"tiktok",name:"TikTok Services",category:"social",logo:"https://cdn.simpleicons.org/tiktok/000000",options:[["Profile setup",25],["Content plan",45]]},
+{id:"telegram",name:"Telegram Premium",category:"social",logo:"https://cdn.simpleicons.org/telegram/26A5E4",options:[["Monthly",45]]},
+{id:"snapchat",name:"Snapchat+",category:"social",logo:"https://cdn.simpleicons.org/snapchat/FFFC00",options:[["Monthly",30]]},
+{id:"x",name:"X Premium",category:"social",logo:"https://cdn.simpleicons.org/x/000000",options:[["Monthly",50]]},
+{id:"instagram",name:"Instagram Services",category:"social",logo:"https://cdn.simpleicons.org/instagram/E4405F",options:[["Profile setup",25],["Content plan",45]]},
+{id:"facebook",name:"Facebook Services",category:"social",logo:"https://cdn.simpleicons.org/facebook/0866FF",options:[["Page setup",25],["Content plan",45]]},
 
-  {id:"capcut",name:"CapCut Pro",category:"design",logo:"https://cdn.simpleicons.org/capcut/000000",options:[["Monthly",35]]},
-  {id:"canva",name:"Canva Pro",category:"design",logo:"https://cdn.simpleicons.org/canva/00C4CC",options:[["Pro access",35]]},
-  {id:"chatgpt",name:"ChatGPT Plus",category:"design",logo:"https://cdn.simpleicons.org/openai/000000",options:[["Monthly",100]]},
-  {id:"gemini",name:"Gemini Advanced",category:"design",logo:"https://cdn.simpleicons.org/googlegemini/4285F4",options:[["Monthly",80]]},
-  {id:"microsoft365",name:"Microsoft 365",category:"design",logo:"https://cdn.simpleicons.org/microsoft365/D83B01",options:[["Personal",75],["Family",110]]},
-  {id:"googleone",name:"Google One",category:"design",logo:"https://cdn.simpleicons.org/googleone/4285F4",options:[["100 GB",20],["200 GB",30],["2 TB",55]]}
+{id:"capcut",name:"CapCut Pro",category:"design",logo:"https://cdn.simpleicons.org/capcut/000000",options:[["Monthly",35]]},
+{id:"canva",name:"Canva Pro",category:"design",logo:"https://cdn.simpleicons.org/canva/00C4CC",options:[["Pro access",35]]},
+{id:"chatgpt",name:"ChatGPT Plus",category:"design",logo:"https://cdn.simpleicons.org/openai/000000",options:[["Monthly",100]]},
+{id:"gemini",name:"Gemini Advanced",category:"design",logo:"https://cdn.simpleicons.org/googlegemini/4285F4",options:[["Monthly",80]]},
+{id:"microsoft365",name:"Microsoft 365",category:"design",logo:"https://cdn.simpleicons.org/microsoft365/D83B01",options:[["Personal",75],["Family",110]]},
+{id:"googleone",name:"Google One",category:"design",logo:"https://cdn.simpleicons.org/googleone/4285F4",options:[["100 GB",20],["200 GB",30],["2 TB",55]]}
 ];
 
-let selectedProduct = null;
-let selectedOption = null;
-let cartCount = 0;
+let selectedProduct=null;
+let selectedOption=0;
+let cartCount=0;
 
 function renderProducts(){
   ["streaming","social","design"].forEach(category=>{
@@ -256,6 +272,7 @@ function choose(id){
   cartCount++;
   document.getElementById("cartCount").innerText=cartCount;
   document.getElementById("selectedProduct").innerText=item.name;
+
   const selector=document.getElementById("productOption");
   selector.disabled=false;
   selector.innerHTML="";
@@ -278,53 +295,82 @@ function updateSelectedOption(){
   document.getElementById("selectedPrice").innerText="GH₵ "+option[1].toFixed(2);
 }
 
-function payNow(){
+async function payNow(){
   const email=document.getElementById("customerEmail").value.trim();
-  if(!selectedProduct){alert("Please select a product first.");return;}
-  if(!email||! /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){alert("Please enter a valid email address.");return;}
-  if(typeof PaystackPop==="undefined"){alert("Paystack failed to load. Check your internet connection.");return;}
+  const button=document.getElementById("payButton");
+  const status=document.getElementById("checkoutStatus");
+
+  if(!selectedProduct){
+    alert("Please select a product first.");
+    return;
+  }
+
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    alert("Please enter a valid email address.");
+    return;
+  }
 
   const option=selectedProduct.options[selectedOption];
-  const amount=option[1];
-  const popup=new PaystackPop();
-  popup.newTransaction({
-    key:PAYSTACK_PUBLIC_KEY,
-    email:email,
-    amount:Math.round(amount*100),
-    currency:"GHS",
-    channels:["card","mobile_money"],
-    metadata:{
-      custom_fields:[
-        {display_name:"Product",variable_name:"product",value:selectedProduct.name},
-        {display_name:"Package",variable_name:"package",value:option[0]}
-      ]
-    },
-    onSuccess:(transaction)=>{
-      alert("Paystack returned reference: "+transaction.reference+". This is not final payment verification. Please wait for the store to verify the payment before delivery.");
-    },
-    onCancel:()=>alert("Payment cancelled."),
-    onError:(error)=>alert("Payment error: "+(error.message||"Please try again."))
-  });
+
+  button.disabled=true;
+  button.textContent="CONNECTING TO PAYSTACK...";
+  status.textContent="Preparing secure checkout...";
+
+  try{
+    const response=await fetch(BACKEND_URL+"/initialize",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        email:email,
+        product:selectedProduct.name,
+        package:option[0]
+      })
+    });
+
+    const result=await response.json();
+
+    if(!response.ok||!result.status){
+      throw new Error(result.message||"Payment initialization failed.");
+    }
+
+    if(!result.data||!result.data.authorization_url){
+      throw new Error("The backend did not return a checkout URL.");
+    }
+
+    status.textContent="Opening secure Paystack checkout...";
+    window.location.href=result.data.authorization_url;
+
+  }catch(error){
+    status.textContent="Checkout could not start.";
+    alert("Checkout error: "+error.message);
+    button.disabled=false;
+    button.textContent="CONTINUE TO PAYMENT →";
+  }
 }
 
-function toggleMenu(){document.getElementById("mainNav").classList.toggle("open");}
-function showAll(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});}
+function toggleMenu(){
+  document.getElementById("mainNav").classList.toggle("open");
+}
+
+function showAll(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+}
+
 function searchProducts(){
   const term=prompt("Search for a product:");
   if(!term)return;
   const query=term.toLowerCase();
   let found=false;
+
   document.querySelectorAll(".product").forEach(card=>{
     const match=card.innerText.toLowerCase().includes(query);
     card.style.display=match?"":"none";
     if(match)found=true;
   });
+
   if(!found)alert("No matching product found.");
 }
+
 document.querySelectorAll("#mainNav a").forEach(link=>{
-  link.addEventListener("click",()=>document.getElementById("mainNav").classList.remove("open"));
-});
-renderProducts();
-</script>
-</body>
-  </html>
+  link.addEventListener("click",()=>{
+    document.getElementById("mainNav").classList.re
