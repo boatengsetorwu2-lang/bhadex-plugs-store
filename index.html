@@ -5,7 +5,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Bhadex Plugs | Premium Digital Store</title>
+
 <script src="https://js.paystack.co/v2/inline.js"></script>
+
 <style>
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#090d18;color:white}
@@ -27,13 +29,20 @@ nav a{color:white;text-decoration:none;margin-left:20px}
 .card p{color:#aab5cb;font-size:14px}
 footer{text-align:center;padding:30px;color:#8c98ad;border-top:1px solid #20283a}
 input{padding:12px;border-radius:8px;border:1px solid #34415b;background:#111a2b;color:white;width:100%;margin:8px 0}
-#emailbox{max-width:350px;margin:20px auto}
+#emailbox{max-width:350px;margin:20px auto;padding:15px}
+button:disabled{opacity:.6;cursor:not-allowed}
+@media(max-width:600px){.hero h1{font-size:30px}header{padding:18px 5%}}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="logo">BH ADEX PLUGS</div>
-<nav><a href="#products">Products</a><a href="#contact">Contact</a></nav>
+<div class="logo">BHADEX PLUGS</div>
+<nav>
+<a href="#products">Products</a>
+<a href="#contact">Contact</a>
+</nav>
 </header>
 
 <section class="hero">
@@ -44,6 +53,7 @@ input{padding:12px;border-radius:8px;border:1px solid #34415b;background:#111a2b
 
 <section class="products" id="products">
 <h2>Popular Subscriptions</h2>
+
 <div class="grid">
 
 <div class="card">
@@ -84,7 +94,9 @@ input{padding:12px;border-radius:8px;border:1px solid #34415b;background:#111a2b
 <section id="emailbox">
 <h3>Checkout</h3>
 <input id="customerEmail" type="email" placeholder="Enter your email address">
-<p style="color:#9caac1;font-size:13px">Your payment will be processed securely by Paystack.</p>
+<p style="color:#9caac1;font-size:13px">
+Payments processed securely by Paystack.
+</p>
 </section>
 
 <footer id="contact">
@@ -92,46 +104,58 @@ input{padding:12px;border-radius:8px;border:1px solid #34415b;background:#111a2b
 <p>Premium digital subscriptions made simple.</p>
 </footer>
 
-
 <script>
-const PAYSTACK_PUBLIC_KEY = "pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
+const PAYSTACK_PUBLIC_KEY =
+"pk_test_f9e4e819979b2d1919a310620c9b4472c831aee5";
 
-async function buy(product, price) {
-  const email = document.getElementById("customerEmail").value.trim();
+async function buy(product,price){
 
-  if (!email || !email.includes("@")) {
-    alert("Please enter a valid email address.");
-    return;
-  }
+const email=document.getElementById("customerEmail").value.trim();
 
-  if (typeof PaystackPop === "undefined")
-    alert("Paystack failed to load. Refresh the page.");
-    return;
-  }
+if(!email||!email.includes("@")){
+alert("Please enter a valid email address.");
+return;
+}
 
-  const paystack = new PaystackPop();
+if(typeof PaystackPop==="undefined"){
+alert("Paystack library did not load. Check your internet connection.");
+return;
+}
 
-  try {
-    paystack.checkout({
-      key: PAYSTACK_PUBLIC_KEY,
-      email: email,
-      amount: price * 100,
-      currency: "GHS",
-      channels: ["card", "mobile_money"],
-      onSuccess: (transaction) => {
-        alert("Payment reference: " + transaction.reference);
-      },
-      onCancel: () => {
-        alert("Payment cancelled.");
-      },
-      onError: (error) => {
-        alert("Payment error: " + error.message);
-      }
-    });
-  } catch (error) {
-    alert("Checkout error: " + error.message);
-  }
+const popup=new PaystackPop();
+
+try{
+
+popup.newTransaction({
+key:PAYSTACK_PUBLIC_KEY,
+email:email,
+amount:price*100,
+currency:"GHS",
+channels:["card","mobile_money"],
+
+metadata:{
+product:product
+},
+
+onSuccess:(transaction)=>{
+alert("Payment reference: "+transaction.reference);
+},
+
+onCancel:()=>{
+alert("Payment cancelled.");
+},
+
+onError:(error)=>{
+alert("Payment error: "+error.message);
+}
+});
+
+}catch(error){
+alert("Checkout error: "+error.message);
+}
 }
 </script>
+
 </body>
-</html> 
+  </html>
+  
